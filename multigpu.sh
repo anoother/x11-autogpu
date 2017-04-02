@@ -5,6 +5,7 @@ set -u
 OUTPUT_FILE="/etc/X11/xorg.conf.d/09-multigpu.conf"
 SNIPPETS_FILE="/etc/multigpu.snippets"
 ENUMERATE_UNIQUE_CARDS=0 # Enumeration not yet implemented
+REVERSE_CARD_ORDER=1 # Reverse the order in which devices appear. Hacky.
 ACTION=${1-}
 
 function get_config_snippet() {
@@ -54,6 +55,9 @@ function main() {
     esac
     : > "$OUTPUT_FILE"
     cards="$(lspci | grep -E '^[0-9:.]+ VGA compatible controller')"
+    if (($REVERSE_CARD_ORDER)); then
+        cards=$(echo "$cards" | tac)
+    fi
     echo "$cards" | while read card; do
         generate_config $card >> "$OUTPUT_FILE"
     done
