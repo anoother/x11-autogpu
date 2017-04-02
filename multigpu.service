@@ -1,13 +1,13 @@
 [Unit]
 Description=Multi-GPU detection and subsequent X configuration
+Before=lightdm.service
 
 [Service]
 Type=oneshot
 ExecStart=/usr/local/sbin/multigpu.sh install
-ExecRestart=/usr/local/sbin/multigpu.sh uninstall
+ExecStop=/usr/local/sbin/multigpu.sh uninstall
 ExecReload=/usr/local/sbin/multigpu.sh reinstall
 RemainAfterExit=yes
-Before=lightdm.service
 
 [Install]
 WantedBy=multi-user.target
