@@ -1,6 +1,6 @@
 Crystal Well
     Identifier  "Intel Iris Pro 5200"
-    Driver      "modesetting"
+    Driver      "intel"
 
 [\[]AMD/ATI[\]] Device 67df
     Identifier  "AMD RX 480"
