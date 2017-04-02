@@ -33,7 +33,7 @@ function generate_config() {
     echo "Section \"Device\""
     echo "    BusID       \"PCI:${pci_id}\""
     get_config_snippet $device_string
-    echo 'EndSection'
+    echo "EndSection"
     echo # newline
 }
 
@@ -60,4 +60,3 @@ function main() {
 }
 
 main
-
