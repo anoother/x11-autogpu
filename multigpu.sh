@@ -5,7 +5,7 @@ set -u
 OUTPUT_FILE="/etc/X11/xorg.conf.d/09-multigpu.conf"
 SNIPPETS_FILE="/etc/multigpu.snippets"
 ENUMERATE_UNIQUE_CARDS=0 # Enumeration not yet implemented
-ACTION=$1
+ACTION=${1-}
 
 function get_config_snippet() {
     to_match="$@"
@@ -31,7 +31,7 @@ function generate_config() {
     shift
     device_string="$@"
     echo "Section \"Device\""
-    echo "    BusID       PCI:${pci_id}\""
+    echo "    BusID       \"PCI:${pci_id}\""
     get_config_snippet $device_string
     echo 'EndSection'
     echo # newline
