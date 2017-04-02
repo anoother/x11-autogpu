@@ -27,7 +27,7 @@ function get_config_snippet() {
 }
 
 function generate_config() {
-    pci_id=$(echo $1 | sed 's/\..*//')
+    pci_id=$(echo $1 | sed 's/\./:/')
     shift
     device_string="$@"
     echo "Section \"Device\""
