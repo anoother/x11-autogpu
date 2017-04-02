@@ -1,0 +1,12 @@
+Crystal Well
+    Identifier  "Intel Iris Pro 5200"
+    Driver      "modesetting"
+
+[\[]AMD/ATI[\]] Device 67df
+    Identifier  "AMD RX 480"
+    Driver      "amdgpu"
+    Option      "DRI" "3"
+    Option      "TearFree" "on"
+
+.+
+    Option      "AccelMethod" "glamor"
