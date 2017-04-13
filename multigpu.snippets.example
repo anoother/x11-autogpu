@@ -7,6 +7,11 @@ Crystal Well
     Driver      "amdgpu"
     Option      "TearFree" "on"
 
+NVIDIA Corporation Device 1c03
+    Identifier  "GTX 1060 6GB"
+    Driver      "nvidia"
+    Option      "Coolbits" "12"
+
 .+
     Option      "DRI" "3"
     Option      "AccelMethod" "glamor"
