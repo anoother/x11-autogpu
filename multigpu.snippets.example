@@ -13,6 +13,11 @@ Crystal Well
         ModulePath  "/opt/amdgpu-pro/lib/xorg/modules"
     EndSection
 
+NVIDIA Corporation Device 1c03
+    Identifier  "GTX 1060 6GB"
+    Driver      "nvidia"
+    Option      "Coolbits" "12"
+
 .+
     Option      "DRI" "3"
     Option      "AccelMethod" "glamor"
