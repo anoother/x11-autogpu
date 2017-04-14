@@ -31,11 +31,11 @@ function generate_config() {
     pci_id=$(echo $1 | sed 's/\./:/')
     shift
     device_string="$@"
+    echo # newline
     echo "Section \"Device\""
     echo "    BusID       \"PCI:${pci_id}\""
     get_config_snippet $device_string
     echo "EndSection"
-    echo # newline
 }
 
 function global_config() {
