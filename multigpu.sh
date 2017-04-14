@@ -38,6 +38,14 @@ function generate_config() {
     echo # newline
 }
 
+function global_config() {
+cat << EOF
+Section "ServerFlags"
+    Option  "AutoAddGPU" "off"
+EndSection
+EOF
+}
+
 function main() {
     case $ACTION in
         noop)
@@ -54,6 +62,7 @@ function main() {
             ;;
     esac
     : > "$OUTPUT_FILE"
+    global_config >> "$OUTPUT_FILE"
     cards="$(lspci | grep -E '^[0-9:.]+ VGA compatible controller')"
     if (($REVERSE_CARD_ORDER)); then
         cards=$(echo "$cards" | tac)
