@@ -82,12 +82,16 @@ def format_extra_sections(extra_sections):
         output.append('Section "%s"' % heading)
         output += options
         output.append('EndSection')
+        output.append('')
     return '\n'.join(output)
 
 def main(output_file):
     lspci_out = check_output('lspci')
     lspci_out = re.finditer('^([0-9:.]+) VGA compatible controller: (.*)', lspci_out, re.MULTILINE)
-    pci_devices = dict((device.groups() for device in lspci_out))
+    pci_devices = dict(
+        (device.group(1).replace('.', ':'), device.group(2))
+        for device in lspci_out
+    )
     device_sections, extra_sections = generate_config(pci_devices)
     with open(output_file, 'wb') as output:
         try:
