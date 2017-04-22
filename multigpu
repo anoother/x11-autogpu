@@ -13,8 +13,10 @@ MERGEABLE_SECTIONS = ['Files', 'ServerFlags', 'Module', 'Extensions']
 
 def generate_config(pci_devices):
     device_sections = OrderedDict()
-    for line in read_snippets():
-        if isinstance(line, str):
+    extra_sections = []
+    in_section = False
+    with open(SNIPPETS_FILE) as snippets:
+        for line in snippets.read().splitlines(): # Because readlines() leaves newlines on the end of each line
             if line.lstrip() == line:
                 # No indentation, this is a device regex
                 matched_devices = []
@@ -24,21 +26,10 @@ def generate_config(pci_devices):
                         device_sections.setdefault(pci_id, [])
             else:
                 for pci_id in matched_devices:
-                    device_sections[pci_id].append(line)
-        else:
-            extra_sections = line
+                    changed, extra_sections, in_section = update_extra_sections(line, extra_sections, in_section)
+                    if not changed:
+                        device_sections[pci_id].append(line)
     return (device_sections, extra_sections)
-
-def read_snippets():
-    extra_sections = []
-    in_section = False
-    with open(SNIPPETS_FILE) as snippets:
-        for line in snippets.read().splitlines(): # Because readlines() leaves newlines on the end of each line
-            changed, extra_sections, in_section = update_extra_sections(line, extra_sections, in_section)
-            if not changed:
-                yield line
-    yield extra_sections
-    return
 
 def update_extra_sections(line, extra_sections, in_section):
     changed = False
