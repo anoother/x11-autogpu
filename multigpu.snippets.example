@@ -1,12 +1,24 @@
 Crystal Well
     Identifier  "Intel Iris Pro 5200"
     Driver      "modesetting"
+    Driver      "intel"
+    Section     "Files"
+        ModulePath  "/usr/lib/xorg/modules"
+    EndSection
 
 [\[]AMD/ATI[\]] Device 67df
     Identifier  "AMD RX 480"
     Driver      "amdgpu"
     Option      "DRI" "3"
     Option      "TearFree" "on"
+    Section     "Files"
+        ModulePath  "/opt/amdgpu-pro/lib/xorg/modules"
+    EndSection
+
+NVIDIA Corporation Device 1c03
+    Identifier  "GTX 1060 6GB"
+    Driver      "nvidia"
+    Option      "Coolbits" "12"
 
 .+
     Option      "AccelMethod" "glamor"
