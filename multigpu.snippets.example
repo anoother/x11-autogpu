@@ -1,11 +1,11 @@
-Crystal Well
-    Identifier  "Intel Iris Pro 5200"
-    Driver      "intel"
-
 [\[]AMD/ATI[\]] Device 67df
     Identifier  "AMD RX 480"
     Driver      "amdgpu"
     Option      "TearFree" "on"
+
+Crystal Well
+    Identifier  "Intel Iris Pro 5200"
+    Driver      "intel"
 
 NVIDIA Corporation Device 1c03
     Identifier  "GTX 1060 6GB"

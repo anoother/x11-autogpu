@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+
+import sys
+import re
+from subprocess import check_output
+from collections import OrderedDict
+
+
+OUTPUT_FILE="/etc/X11/xorg.conf.d/09-multigpu.conf"
+SNIPPETS_FILE="/etc/multigpu.snippets"
+ENUMERATE_UNIQUE_CARDS=0 # Enumeration not yet implemented
+MERGEABLE_SECTIONS = ['Files', 'ServerFlags', 'Module', 'Extensions']
+
+def generate_config(pci_devices):
+    device_sections = OrderedDict()
+    extra_sections = []
+    in_section = False
+    with open(SNIPPETS_FILE) as snippets:
+        for line in snippets.read().splitlines(): # Because readlines() leaves newlines on the end of each line
+            if line.lstrip() == line:
+                # No indentation, this is a device regex
+                matched_devices = []
+                for pci_id, pci_description in pci_devices.items():
+                    if re.search(line, pci_description):
+                        matched_devices.append(pci_id)
+                        device_sections.setdefault(pci_id, [])
+            else:
+                for pci_id in matched_devices:
+                    changed, extra_sections, in_section = update_extra_sections(line, extra_sections, in_section)
+                    if not changed:
+                        device_sections[pci_id].append(line)
+    return (device_sections, extra_sections)
+
+def update_extra_sections(line, extra_sections, in_section):
+    changed = False
+    line_unindented = line.lstrip()
+    if line_unindented.startswith('Section'):
+        assert not in_section
+        heading = line.split('"')[1]
+        in_section = heading
+        extra_sections.append((heading, []))
+        changed = True
+    elif line_unindented.startswith('EndSection'):
+        assert in_section
+        in_section = False
+        changed = True
+    elif in_section in MERGEABLE_SECTIONS:
+        for index, mytuple in enumerate(extra_sections):
+            if mytuple[0] == in_section:
+                break
+        else:
+            index=1
+        extra_sections[index][1].append(line)
+        changed = True
+    return (changed, extra_sections, in_section)
+
+def format_device_sections(device_sections):
+    output = []
+    for pci_id, options in device_sections.iteritems():
+        output.append('Section "Device"')
+        output.append('    BusID       "PCI:%s"' % pci_id)
+        output += options
+        output.append('EndSection')
+        output.append('')
+    return '\n'.join(output)
+
+def format_extra_sections(extra_sections):
+    output = []
+    for heading, options in extra_sections:
+        if not options:
+            continue
+        output.append('')
+        output.append('Section "%s"' % heading)
+        output += options
+        output.append('EndSection')
+        output.append('')
+    return '\n'.join(output)
+
+def main(output_file):
+    lspci_out = check_output('lspci')
+    lspci_out = re.finditer('^([0-9:.]+) VGA compatible controller: (.*)', lspci_out, re.MULTILINE)
+    pci_devices = dict(
+        (device.group(1).replace('.', ':'), device.group(2))
+        for device in lspci_out
+    )
+    device_sections, extra_sections = generate_config(pci_devices)
+    with open(output_file, 'wb') as output:
+        try:
+            output.truncate()
+        except IOError:
+            pass
+        output.write(format_device_sections(device_sections))
+        output.write(format_extra_sections(extra_sections))
+
+action = sys.argv[1]
+if action == 'noop':
+    output_file = '/dev/stdout'
+elif action == 'uninstall':
+    os.remove(OUTPUT_FILE)
+elif action in ['install', 'reinstall']:
+    output_file = OUTPUT_FILE
+else:
+    raise RuntimeError('Please provide an option.')
+main(output_file)
