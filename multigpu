@@ -89,7 +89,6 @@ def main(output_file):
             output.truncate()
         except IOError:
             pass
-        output.write('Section "ServerFlags"\n        Option  "AutoAddGPU" "off"\nEndSection\n\n')
         output.write(format_device_sections(device_sections))
         output.write(format_extra_sections(extra_sections))
 
