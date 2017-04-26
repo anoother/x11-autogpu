@@ -21,7 +21,7 @@ def generate_config(pci_devices):
                 # No indentation, this is a device regex
                 matched_devices = []
                 for pci_id, pci_description in pci_devices.items():
-                    if re.search(line, pci_description):
+                    if line and re.search(line, pci_description):
                         matched_devices.append(pci_id)
                         device_sections.setdefault(pci_id, [])
             else:
