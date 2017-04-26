@@ -8,8 +8,8 @@ from collections import OrderedDict
 
 OUTPUT_FILE="/etc/X11/xorg.conf.d/09-multigpu.conf"
 SNIPPETS_FILE="/etc/multigpu.snippets"
-ENUMERATE_UNIQUE_CARDS=0 # Enumeration not yet implemented
 MERGEABLE_SECTIONS = ['Files', 'ServerFlags', 'Module', 'Extensions']
+
 
 def generate_config(pci_devices):
     device_sections = OrderedDict()
@@ -30,6 +30,24 @@ def generate_config(pci_devices):
                     if not changed:
                         device_sections[pci_id].append(line)
     return (device_sections, extra_sections)
+
+def add_identifiers(device_sections):
+    vendor_counts = {}
+    output = device_sections.copy()
+    for pci_id, lines in device_sections.items():
+        for i, line in enumerate(lines):
+            identifier = re.search('Identifier\s+"(.*)"', line)
+            if identifier:
+                identifier = identifier.group(1)
+                break
+        else:
+            identifier = 'unknown_'
+            i = len(lines)
+        vendor_counts.setdefault(identifier, 0)
+        vendor_counts[identifier] += 1
+        output[pci_id][i] = '    Identifier  "%s%s"' % (identifier, vendor_counts[identifier])
+    return output
+
 
 def update_extra_sections(line, extra_sections, in_section):
     changed = False
@@ -89,7 +107,7 @@ def main(output_file):
             output.truncate()
         except IOError:
             pass
-        output.write(format_device_sections(device_sections))
+        output.write(format_device_sections(add_identifiers(device_sections)))
         output.write(format_extra_sections(extra_sections))
 
 action = sys.argv[1]

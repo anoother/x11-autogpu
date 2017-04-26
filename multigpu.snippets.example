@@ -1,16 +1,31 @@
-[\[]AMD/ATI[\]] Device 67df
-    Identifier  "AMD RX 480"
+[\[]AMD/ATI[\]]
+    Identifier  "amd_"
+    VendorName  "AMD"
     Driver      "amdgpu"
     Option      "TearFree" "on"
 
-Crystal Well
-    Identifier  "Intel Iris Pro 5200"
-    Driver      "intel"
-
-NVIDIA Corporation Device 1c03
-    Identifier  "GTX 1060 6GB"
+NVIDIA Corporation
+    Identifier  "nvidia_"
+    VendorName  "NVIDIA Corporation"
     Driver      "nvidia"
     Option      "Coolbits" "12"
+
+Intel Corporation
+    Identifier  "intel_"
+    VendorName  "Intel Corporation"
+    Driver      "intel"
+
+[\[]AMD/ATI[\]] Device 67df
+    BoardName   "RX 480 8GB"
+
+Crystal Well
+    BoardName   "Iris Pro 5200"
+
+NVIDIA Corporation Device 1c82
+    BoardName   "GTX 1050 Ti"
+
+NVIDIA Corporation Device 1c03
+    BoardName   "GTX 1060 6GB"
 
 .+
     Option      "DRI" "3"
