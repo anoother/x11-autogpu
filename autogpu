@@ -6,8 +6,8 @@ from subprocess import check_output
 from collections import OrderedDict
 
 
-OUTPUT_FILE="/etc/X11/xorg.conf.d/09-multigpu.conf"
-SNIPPETS_FILE="/etc/multigpu.snippets"
+OUTPUT_FILE="/etc/X11/xorg.conf.d/09-autogpu.conf"
+SNIPPETS_FILE="/etc/autogpu.snippets"
 MERGEABLE_SECTIONS = ['Files', 'ServerFlags', 'Module', 'Extensions']
 
 

@@ -4,9 +4,9 @@ Before=lightdm.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/sbin/multigpu install
-ExecStop=/usr/local/sbin/multigpu uninstall
-ExecReload=/usr/local/sbin/multigpu reinstall
+ExecStart=/usr/local/sbin/autogpu install
+ExecStop=/usr/local/sbin/autogpu uninstall
+ExecReload=/usr/local/sbin/autogpu reinstall
 RemainAfterExit=yes
 
 [Install]
