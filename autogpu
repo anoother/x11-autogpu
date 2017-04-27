@@ -44,8 +44,8 @@ def add_identifiers(device_sections):
             identifier = 'unknown_'
             i = len(lines)
         vendor_counts.setdefault(identifier, 0)
-        vendor_counts[identifier] += 1
         output[pci_id][i] = '    Identifier  "%s%s"' % (identifier, vendor_counts[identifier])
+        vendor_counts[identifier] += 1
     return output
 
 
