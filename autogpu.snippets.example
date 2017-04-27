@@ -1,19 +1,19 @@
 [\[]AMD/ATI[\]]
     Identifier  "amd_"
-    VendorName  "AMD"
     Driver      "amdgpu"
     Option      "TearFree" "on"
+    VendorName  "AMD"
 
 NVIDIA Corporation
     Identifier  "nvidia_"
-    VendorName  "NVIDIA Corporation"
     Driver      "nvidia"
     Option      "Coolbits" "12"
+    VendorName  "NVIDIA Corporation"
 
 Intel Corporation
     Identifier  "intel_"
-    VendorName  "Intel Corporation"
     Driver      "intel"
+    VendorName  "Intel Corporation"
 
 [\[]AMD/ATI[\]] Device 67df
     BoardName   "RX 480 8GB"
