@@ -7,6 +7,7 @@
 NVIDIA Corporation
     Identifier  "nvidia_"
     Driver      "nvidia"
+    Option      "ConnectedMonitor" "DFP"
     Option      "Coolbits" "28"
     VendorName  "NVIDIA Corporation"
 
