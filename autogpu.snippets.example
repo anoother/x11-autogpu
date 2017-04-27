@@ -7,7 +7,7 @@
 NVIDIA Corporation
     Identifier  "nvidia_"
     Driver      "nvidia"
-    Option      "Coolbits" "12"
+    Option      "Coolbits" "28"
     VendorName  "NVIDIA Corporation"
 
 Intel Corporation
