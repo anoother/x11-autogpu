@@ -62,12 +62,12 @@ def update_extra_sections(line, extra_sections, in_section):
         assert in_section
         in_section = False
         changed = True
-    elif in_section in MERGEABLE_SECTIONS:
-        for index, mytuple in enumerate(extra_sections):
-            if mytuple[0] == in_section:
-                break
-        else:
-            index=1
+    elif in_section:
+        index = -1
+        if in_section in MERGEABLE_SECTIONS:
+            for index, mytuple in enumerate(extra_sections):
+                if mytuple[0] == in_section:
+                    break
         extra_sections[index][1].append(line)
         changed = True
     return (changed, extra_sections, in_section)
