@@ -9,6 +9,10 @@ NVIDIA Corporation
     Driver      "nvidia"
     Option      "Coolbits" "28"
     VendorName  "NVIDIA Corporation"
+    Section "Screen"
+        Identifier "Screen 0"
+        Option "metamodes" "nvidia-auto-select +0+0 { ForceCompositionPipeline = On }"
+    EndSection
 
 Intel Corporation
     Identifier  "intel_"
