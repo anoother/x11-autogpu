@@ -4,7 +4,7 @@ Before=lightdm.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/sbin/autogpu install
+ExecStart=/usr/local/sbin/update-nvidia-alternatives ; /usr/local/sbin/autogpu install
 ExecStop=/usr/local/sbin/autogpu uninstall
 ExecReload=/usr/local/sbin/autogpu reinstall
 RemainAfterExit=yes

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+
+#for alt in $(ls /etc/alternatives | grep -v .gz); do update-alternatives --query $alt 2>/dev/null | grep $NV >/dev/null && update-alternatives --query $alt; done | less
+
+NV=nvidia
+
+lspci | grep 'VGA compatible controller'| grep -q -i $NV
+DONT_HAVE_NV=$?
+
+for alt in $(ls /etc/alternatives | grep -v .gz); do
+    to_parse="$(update-alternatives --query $alt 2>/dev/null)"
+    if echo "$to_parse" | grep -q $NV; then # If an nvidia library is presented as an alternative
+        name=$(echo $to_parse | grep 'Name: ' | cut -d' ' -f2)
+        if (( DONT_HAVE_NV )); then
+            echo "$to_parse" | grep 'Value: ' | grep -q -v $NV && continue # Not set to nvidia; respect user choice and ignore.
+            for potential in "$(echo "$to_parse" | grep 'Alternative: ' | grep -v -e $NV)"; do # We will set to highest-prio non-nvidia alternative
+                if [[ ! -z $potential ]]; then
+                    update-alternatives --set "$name" "$(echo $potential | cut -d' ' -f2)"
+                    continue
+                else # No non-nvidia alternatives
+                    echo "hmm"
+                fi
+            done
+        else
+            echo "$to_parse" | grep 'Value: ' | grep -q $NV #&& continue # Already set to nvidia; respect user choice and ignore.
+            for potential in "$(echo "$to_parse" | grep 'Alternative: ' | grep $NV | grep -v prime)"; do # We will set to highest-prio non-prime alternative
+                if echo "$potential" | grep -q $NV; then
+                    update-alternatives --set "$name" "$(echo $potential | cut -d' ' -f2)"
+                    continue
+                fi
+            done
+        fi
+    fi
+done 
+
+if (( DONT_HAVE_NV )); then
+    ln -sfv /usr/lib/x86_64-linux-gnu/mesa/libGL.so /usr/lib/x86_64-linux-gnu/libGL.so
+else
+    VERSION=$(echo $potential | grep -o -m1 -E "${NV}-[0-9]+/" | tr -d '/')
+    echo $VERSION
+    ln -sfv "/usr/lib/${VERSION}/libGL.so" /usr/lib/x86_64-linux-gnu/libGL.so
+fi
