@@ -19,35 +19,10 @@ Intel Corporation
     VendorName  "Intel Corporation"
 
 [\[]AMD/ATI[\]] Device 67df
-    Driver      "amdgpu"
     BoardName   "RX 480 8GB"
 
 [\[]AMD/ATI[\]] Device 687f
     BoardName   "RX Vega 64"
-    Section "Screen"
-        Identifier   "Screen 0"
-        Monitor      "Monitor 0"
-        DefaultDepth 24
-        SubSection   "Display"
-            Depth  24
-        EndSubSection
-    EndSection
-    Section "Monitor"
-        Identifier "DisplayPort-0"
-        Gamma 2.2
-    EndSection
-    Section "Monitor"
-        Identifier "DisplayPort-1"
-        Gamma 2.2
-    EndSection
-    Section "Monitor"
-        Identifier "DisplayPort-2"
-        Gamma 2.2
-    EndSection
-    Section "Monitor"
-        Identifier "HDMI-A-1"
-        Gamma 2.2
-    EndSection
 
 Crystal Well
     BoardName   "Iris Pro 5200"
