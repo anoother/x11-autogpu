@@ -20,9 +20,11 @@ Intel Corporation
 
 [\[]AMD/ATI[\]] Device 67df
     BoardName   "RX 480 8GB"
+    Driver      "amdgpu"
 
 [\[]AMD/ATI[\]] Device 687f
     BoardName   "RX Vega 64"
+    Driver      "amdgpu"
 
 Crystal Well
     BoardName   "Iris Pro 5200"
